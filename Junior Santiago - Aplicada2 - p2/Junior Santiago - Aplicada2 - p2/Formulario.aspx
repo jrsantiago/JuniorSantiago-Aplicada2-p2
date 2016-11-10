@@ -20,11 +20,14 @@
             width: 9px;
         }
         .auto-style6 {
-            width: 547px;
+            width: 443px;
         }
         .auto-style7 {
             height: 72px;
         }
+        .auto-style8 {
+        font-size: x-large;
+    }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -40,11 +43,11 @@
                 <td>
                     <table class="auto-style2">
                         <tr>
-                            <td class="auto-style7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Id &nbsp;
+                            <td class="auto-style7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Id &nbsp;
                                 <asp:TextBox ID="BuscarTextBox" runat="server"></asp:TextBox>
                                 <asp:Button ID="BuscarButton" CssClass="btn btn-primary" runat="server" Text="Buscar" OnClick="BuscarButton_Click" />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fecha
-                                <asp:TextBox ID="FecharTextBox" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="FecharTextBox" runat="server" ReadOnly="True" Width="88px"></asp:TextBox>
                                 &nbsp;&nbsp;</td>
                         </tr>
                         <tr>
@@ -52,9 +55,10 @@
                                 <asp:DropDownList ID="ArticulosDropDownList" runat="server" Height="16px" Width="113px">
                                 </asp:DropDownList>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cantidad
-                                <asp:TextBox ID="CantidadTextBox0" runat="server"></asp:TextBox>
-&nbsp;&nbsp;
-                                <asp:Button ID="AgregarButton" CssClass ="btn btn-primary" runat="server" Text="Add" OnClick="AgregarButton_Click" />
+                                <asp:TextBox ID="CantidadTextBox0" runat="server" ValidationGroup="vg"></asp:TextBox>
+&nbsp;<asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="CantidadTextBox0" CssClass="auto-style8" ErrorMessage="Campo Cantidad Vacio" ForeColor="#CC0000" ValidationGroup="vg">*</asp:RequiredFieldValidator>
+                                &nbsp;
+                                <asp:Button ID="AgregarButton" CssClass ="btn btn-primary" runat="server" Text="Add" OnClick="AgregarButton_Click" ValidationGroup="vg" />
                             </td>
                         </tr>
                         <tr>
@@ -70,7 +74,7 @@
                         <tr>
                             <td class="auto-style6">&nbsp;&nbsp;</td>
                             <td>
-                                <asp:GridView ID="DetalleGridView" runat="server" Height="140px" Width="221px" BackColor="White" BorderColor="#3366CC" BorderStyle="None" BorderWidth="1px" CellPadding="4" AutoGenerateColumns="False">
+                                <asp:GridView ID="DetalleGridView" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#3366CC" BorderStyle="None" BorderWidth="1px" CellPadding="4" Height="148px" Width="234px">
                                     <Columns>
                                         <asp:BoundField DataField="ArticuloId" HeaderText="ArticuloId" />
                                         <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" />
@@ -86,18 +90,22 @@
                                     <SortedDescendingCellStyle BackColor="#D6DFDF" />
                                     <SortedDescendingHeaderStyle BackColor="#002876" />
                                 </asp:GridView>
-&nbsp; Total
-                                <asp:TextBox ID="TotalTextBox" runat="server"></asp:TextBox>
-&nbsp;</td>
+                                &nbsp;&nbsp;</td>
                         </tr>
                         <tr>
                             <td class="auto-style6">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td class="text-left">
+                                Total&nbsp;
+                                <asp:TextBox ID="TotalTextBox" runat="server" Width="67px"></asp:TextBox>
+                            </td>
                         </tr>
                     </table>
+              
                 </td>
+                
             </tr>
         </table>
+        <asp:ValidationSummary ID="ValidationSummary1" runat="server" ForeColor="Red" ValidationGroup="vg" />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:LinkButton ID="GuardarButton" CssClass="btn btn-primary" runat="server" Text="Guardar" OnClick="GuardarButton_Click"></asp:LinkButton>     
 

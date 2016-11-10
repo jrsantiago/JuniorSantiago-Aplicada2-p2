@@ -22,21 +22,18 @@ namespace BLL
         }
         public override bool Actualizar()
         {
-            object Identity = null;
-            int Retornar = 0;
+            bool Retornar = false;
             DbConexion cone = new DbConexion();
             try
             {
-                Identity = cone.ObtenerValor(String.Format("Select * from Ventas where VentaId={0} SELECT @@Identity",this.VetaId));
-                int.TryParse(Identity.ToString(), out Retornar);
-
-                cone.Ejecutar("Delete from VentasDetalle where VentaId ="+ this.VetaId);
-
-                if (Retornar > 0)
+                Retornar = cone.Ejecutar(String.Format("Update Ventas set Fecha='{0}',Monto={1} where VentaId={2}",this.Fecha,this.Monto,this.VetaId));
+              
+                if (Retornar)
                 {
+                    cone.Ejecutar("Delete from VentasDetalle where VentaId ="+ this.VetaId);
                     foreach (VentasDetalle item in this.Detalle)
                     {
-                        cone.Ejecutar(String.Format("Insert into VentasDetalle(VentaId,ArticuloId,Cantidad,Precio) Values({0},{1},{2},{3})", Retornar, item.ArticuloId, item.Cantidad, item.Precio));
+                        cone.Ejecutar(String.Format("Insert into VentasDetalle(VentaId,ArticuloId,Cantidad,Precio) Values({0},{1},{2},{3})",this.VetaId, item.ArticuloId, item.Cantidad, item.Precio));
                     }
                 }
 
@@ -46,12 +43,38 @@ namespace BLL
             {
                 throw ex;
             }
-          return  Retornar > 0;
+          return  Retornar;
         }
 
         public override bool Buscar(int IdBuscar)
         {
-            throw new NotImplementedException();
+            DbConexion cone = new DbConexion();
+            DataTable dt = new DataTable();
+            DataTable dt2 = new DataTable();
+            bool Retornar = false;
+            try
+            {
+                dt = cone.ObtenerDatos("Select * from Ventas where ventaId = "+IdBuscar);
+                if(dt.Rows.Count>0)
+                {
+                    this.VetaId = (int)dt.Rows[0]["VentaId"];
+                    this.Monto = Convert.ToSingle(dt.Rows[0]["Monto"]);
+                    this.Fecha = dt.Rows[0]["Fecha"].ToString();
+
+                    dt2 = cone.ObtenerDatos(String.Format("Select * from VentasDetalle where VentaId = {0}", IdBuscar));
+                    foreach(DataRow row in dt2.Rows)
+                    {
+                        AgregarArticulos((int)row["ArticuloId"], (int)row["Cantidad"], Convert.ToSingle(row["Precio"]));
+                    }
+                }
+              return  dt.Rows.Count > 0;
+
+            }catch(Exception)
+            {
+                
+                Retornar = false;
+            }
+            return Retornar;
         }
 
         public override bool Eliminar()
@@ -60,7 +83,7 @@ namespace BLL
             DbConexion cone = new DbConexion();
             try
             {
-              Retornar= cone.Ejecutar(String.Format("Delete from Ventas where VentaId ={0} " + "Select from VentasDetalle where VentaId={0}", this.VetaId));
+              Retornar= cone.Ejecutar(String.Format("Delete from VentasDetalle where VentaId = {0}; " + "Delete from Ventas where VentaId = {0}", this.VetaId));
 
             }catch(Exception ex)
             {
@@ -107,9 +130,9 @@ namespace BLL
             return cone.ObtenerDatos(String.Format("Select " + Campo + " from Ventas as v inner join VentasDetalle d on v.ventasId = d.VentasId " + Condicion + " " + OrdenFinal));
 
         }
-        public void AgregarArticulos(int VentaId, int ArticuloId, int Cantidad, float Precio)
+        public void AgregarArticulos(int ArticuloId, int Cantidad, float Precio)
         {
-            this.Detalle.Add(new VentasDetalle(VentaId, ArticuloId, Cantidad, Precio));
+            this.Detalle.Add(new VentasDetalle(ArticuloId, Cantidad, Precio));
         }
     }
 }
