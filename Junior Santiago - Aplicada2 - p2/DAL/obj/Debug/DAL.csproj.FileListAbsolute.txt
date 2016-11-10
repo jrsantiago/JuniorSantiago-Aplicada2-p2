@@ -1,0 +1,5 @@
+C:\Users\juniorsantiago\Desktop\Aplicada\Junior Santiago - Aplicada2 - p2\DAL\bin\Debug\DAL.dll
+C:\Users\juniorsantiago\Desktop\Aplicada\Junior Santiago - Aplicada2 - p2\DAL\bin\Debug\DAL.pdb
+C:\Users\juniorsantiago\Desktop\Aplicada\Junior Santiago - Aplicada2 - p2\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+C:\Users\juniorsantiago\Desktop\Aplicada\Junior Santiago - Aplicada2 - p2\DAL\obj\Debug\DAL.dll
+C:\Users\juniorsantiago\Desktop\Aplicada\Junior Santiago - Aplicada2 - p2\DAL\obj\Debug\DAL.pdb
